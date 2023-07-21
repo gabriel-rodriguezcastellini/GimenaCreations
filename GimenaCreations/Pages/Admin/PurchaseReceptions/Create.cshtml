@@ -1,0 +1,60 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.PurchaseReceptions.CreateModel
+
+@{
+    ViewData["Title"] = "Purchases receptions";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.PurchasesReceptions;
+}
+
+<h1>Create</h1>
+
+<h4>Purchase Reception</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group">
+                <label asp-for="PurchaseReception.PurchaseId" class="control-label"></label>
+                <select asp-for="PurchaseReception.PurchaseId" class ="form-control" asp-items="ViewBag.PurchaseId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseReception.InputNumber" class="control-label"></label>
+                <input asp-for="PurchaseReception.InputNumber" class="form-control" />
+                <span asp-validation-for="PurchaseReception.InputNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseReception.InputDate" class="control-label"></label>
+                <input asp-for="PurchaseReception.InputDate" class="form-control" />
+                <span asp-validation-for="PurchaseReception.InputDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseReception.InvoiceNumber" class="control-label"></label>
+                <input asp-for="PurchaseReception.InvoiceNumber" class="form-control" />
+                <span asp-validation-for="PurchaseReception.InvoiceNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseReception.InvoiceDate" class="control-label"></label>
+                <input asp-for="PurchaseReception.InvoiceDate" class="form-control" />
+                <span asp-validation-for="PurchaseReception.InvoiceDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseReception.InvoiceReceptionDate" class="control-label"></label>
+                <input asp-for="PurchaseReception.InvoiceReceptionDate" class="form-control" />
+                <span asp-validation-for="PurchaseReception.InvoiceReceptionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

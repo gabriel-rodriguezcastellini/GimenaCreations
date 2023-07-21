@@ -1,0 +1,42 @@
+﻿@page
+@using System.Reflection;
+@using GimenaCreations.Extensions;
+@using GimenaCreations.Entities;
+@model GimenaCreations.Pages.OrderManagementModel
+@{
+    ViewData["Title"] = "Order management";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<table class="table align-middle table-borderless table-striped">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">ORDER NUMBER</th>
+            <th scope="col" class="text-center">DATE</th>
+            <th scope="col" class="text-center">TOTAL</th>
+            <th scope="col" class="text-center">STATUS</th>
+            <th scope="col" class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody class="table-light">
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <th class="text-center">@item.Id</th>
+                <th class="text-center">@item.Date</th>
+                <th class="text-center">$ @item.GetTotal()</th>
+                <th class="text-center">@(((OrderStatus)item.Status).GetDisplayName())</th>
+                <th class="text-center">
+                    <a asp-page="OrderDetail" asp-route-orderId="@item.Id">Detail</a><br />
+                    <a asp-page="OrderManagement" asp-page-handler="Invoice" asp-route-orderId="@item.Id">Download invoice</a><br />
+                    @if (item.Items.Any(x => x.Files.Any()))
+                    {
+                        <form method="post">
+                            <input type="submit" asp-route-orderId="@item.Id" value="Download files" class="btn btn-primary mt-2" />
+                        </form>
+                    }
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

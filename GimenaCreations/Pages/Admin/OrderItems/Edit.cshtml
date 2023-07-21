@@ -1,0 +1,66 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.OrderItems.EditModel
+
+@{
+    ViewData["Title"] = "Sales";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Sales;
+}
+
+<h1>Edit</h1>
+
+<h4>Order item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OrderItem.Id" />
+            <input type="hidden" asp-for="OrderItem.CatalogItemId" />            
+            <input type="hidden" asp-for="OrderItem.OrderId" />
+            <input type="hidden" asp-for="OrderItem.Order.ApplicationUserId" />
+            <div class="form-group">
+                <label asp-for="OrderItem.OrderId" class="control-label"></label>
+                <input asp-for="OrderItem.OrderId" class="form-control" disabled />
+                <span asp-validation-for="OrderItem.OrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderItem.ProductName" class="control-label"></label>
+                <input asp-for="OrderItem.ProductName" class="form-control" disabled />
+                <span asp-validation-for="OrderItem.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img src="~/@Model.OrderItem.PictureUrl" class="w-25" />                
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderItem.UnitPrice" class="control-label"></label>
+                <input asp-for="OrderItem.UnitPrice" class="form-control" disabled />
+                <span asp-validation-for="OrderItem.UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderItem.Units" class="control-label"></label>
+                <input asp-for="OrderItem.Units" class="form-control" disabled />
+                <span asp-validation-for="OrderItem.Units" class="text-danger"></span>
+            </div>
+            <dl>
+                <dt>
+                    <label asp-for="OrderItem.FormFile"></label>
+                </dt>
+                <dd>
+                    <input asp-for="OrderItem.FormFile" type="file">
+                </dd>
+            </dl>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Admin/Orders/Edit" asp-route-id="@Model.OrderItem.OrderId">Back</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

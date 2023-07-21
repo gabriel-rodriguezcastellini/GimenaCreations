@@ -1,0 +1,54 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.LoginLogoutReport.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.LoginLogoutReport;
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginLogoutAudit[0].ApplicationUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginLogoutAudit[0].Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginLogoutAudit[0].FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginLogoutAudit[0].LoginTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginLogoutAudit[0].LogoutTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LoginLogoutAudit)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoginTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LogoutTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

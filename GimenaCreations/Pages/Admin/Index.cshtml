@@ -1,0 +1,244 @@
+﻿@page
+@using GimenaCreations.ViewModels;
+@model GimenaCreations.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.WebsiteTraffic;
+}
+
+<section class="mb-4">
+    <div class="card">
+        <div class="card-header py-3">
+            <h5 class="mb-0 text-center"><strong>Sales</strong></h5>
+        </div>
+        <div class="card-body">
+            <canvas class="my-4 w-100" id="salesChart" height="380"></canvas>
+        </div>
+    </div>
+</section>
+
+<!--Section: Sales Performance KPIs-->
+<section class="mb-4">
+    <div class="card">
+        <div class="card-header text-center py-3">
+            <h5 class="mb-0 text-center">
+                <strong>Sales Performance</strong>
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Unique Purchases</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Product Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Value</th>
+                            <td>@((int)Model.SalePerformance.UniquePurchase.Value)</td>
+                            <td>@((int)Model.SalePerformance.Quantity.Value)</td>
+                            <td>$@(Model.SalePerformance.ProductRevenue.Value)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Percentage change</th>
+                            <td>
+                                <span class="@Model.SalePerformance.UniquePurchase.Text">
+                                    <i class="fas @Model.SalePerformance.UniquePurchase.Arrow me-1"></i>
+                                    <span>
+                                        @(string.Format("{0:.##}", Model.SalePerformance.UniquePurchase.PercentageChange))%
+                                    </span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="@Model.SalePerformance.Quantity.Text">
+                                    <i class="fas @Model.SalePerformance.Quantity.Arrow me-1"></i><span>@(string.Format("{0:.##}", Model.SalePerformance.Quantity.PercentageChange))%</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="@Model.SalePerformance.ProductRevenue.Text">
+                                    <i class="fas @Model.SalePerformance.ProductRevenue.Arrow me-1"></i>
+                                    <span>
+                                        @(string.Format("{0:.##}", @Model.SalePerformance.ProductRevenue.PercentageChange))%
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Absolute change</th>
+                            <td>
+                                <span class="@Model.SalePerformance.UniquePurchase.Text">
+                                    <i class="fas @Model.SalePerformance.UniquePurchase.Arrow me-1"></i><span>@((int)Model.SalePerformance.UniquePurchase.AbsoluteChange)</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="@Model.SalePerformance.Quantity.Text">
+                                    <i class="fas @Model.SalePerformance.Quantity.Arrow me-1"></i><span>@((int)Model.SalePerformance.Quantity.AbsoluteChange)</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="@Model.SalePerformance.ProductRevenue.Text">
+                                    <i class="fas @Model.SalePerformance.ProductRevenue.Arrow me-1"></i>
+                                    <span>
+                                        $@string.Format("{0:.##}", Model.SalePerformance.ProductRevenue.AbsoluteChange)
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section: Sales Performance KPIs-->
+
+<!--Section: Minimal statistics cards-->
+<section>    
+    <div class="row">        
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between px-md-1">
+                        <div>
+                            <h3 class="text-success">@Model.NewClients</h3>
+                            <p class="mb-0">New Clients</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="far fa-user text-success fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>    
+</section>
+<!--Section: Minimal statistics cards-->
+
+<!--Section: Statistics with subtitles-->
+<section>    
+    <div class="row">
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                <h2 class="h1 mb-0 me-4">$@Model.TotalSales</h2>
+                            </div>
+                            <div>
+                                <h4>Total Sales</h4>
+                                <p class="mb-0">Monthly Sales Amount</p>
+                            </div>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="far fa-heart text-danger fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                <h2 class="h1 mb-0 me-4">$@Model.TotalCost</h2>
+                            </div>
+                            <div>
+                                <h4>Total Cost</h4>
+                                <p class="mb-0">Monthly Cost</p>
+                            </div>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-wallet text-success fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section: Statistics with subtitles-->
+
+@section Scripts{
+    <script>
+        var Total = [];
+        var Products = [];
+
+        @if (Model.Sales.Any())
+        {
+            foreach (var item in Model.Sales)
+            {
+                @:Total.push(@item.Total);
+                @:Products.push('@Html.Raw(item.ProductName)');
+            }
+        }
+
+        var Sales = {
+            data: Total,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            lineTension: 0,
+        };
+
+        var datasetvalues = {
+            labels: Products, // x-azis label values
+            datasets: [Sales] // y-axis
+        };
+
+        barChartOptions = {
+            indexAxis: 'x',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: false,
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    barPercentage: 1,
+                    categoryPercentage: 0.6,
+                },
+                y: {
+                    barPercentage: 1,
+                    categoryPercentage: 0.6,
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+
+        var salesChart = new Chart(
+            document.getElementById('salesChart').getContext('2d'), {
+            type: 'bar',
+            data: datasetvalues,
+            options: barChartOptions
+        });
+    </script>
+}

@@ -1,0 +1,6 @@
+﻿@model GimenaCreations.ViewModels.CartViewModels.CartComponentViewModel
+
+<a class="text-reset me-3 btn btn-link @(Model.Disabled)" data-mdb-ripple-color="dark" asp-page="/Cart">
+    <span class="badge badge-pill bg-danger">@Model.ItemsCount</span>
+    <span><i class="fas fa-shopping-cart"></i></span>
+</a>

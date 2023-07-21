@@ -1,0 +1,189 @@
+﻿@page
+@using System.Reflection;
+@using GimenaCreations.Extensions;
+@using GimenaCreations.Entities;
+@model OrderModel
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";    
+}
+
+<!-- Heading -->
+<h2 class="my-5 text-center">Checkout form</h2>
+
+<form method="post">
+    <!--Grid row-->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-md-8 mb-4 mx-auto">
+            <!--Card-->
+            <div class="card p-4">
+                <!--Grid row-->
+                <div class="row mb-3">
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-2">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <!--firstName-->
+                        <div class="form-outline">
+                            <input asp-for="Checkout.User.FirstName" class="form-control" />
+                            <label asp-for="Checkout.User.FirstName" class="form-label"></label>
+                            <span asp-validation-for="Checkout.User.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-2">
+                        <!--lastName-->
+                        <div class="form-outline">
+                            <input asp-for="Checkout.User.LastName" class="form-control" />
+                            <label asp-for="Checkout.User.LastName" class="form-label"></label>
+                            <span asp-validation-for="Checkout.User.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+                <!--address-->
+                <p class="mb-0">
+                    Address
+                </p>
+                <div class="form-outline mb-4">
+                    <input asp-for="Checkout.User.Address.Street" class="form-control" />
+                    <span asp-validation-for="Checkout.User.Address.Street" class="text-danger"></span>
+                </div>
+
+                <!--city-->
+                <p class="mb-0">
+                    City
+                </p>
+                <div class="form-outline mb-4">
+                    <input asp-for="Checkout.User.Address.City" class="form-control" />
+                    <span asp-validation-for="Checkout.User.Address.City" class="text-danger"></span>
+                </div>
+
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <p class="mb-0">
+                            Country
+                        </p>
+                        <div class="form-outline mb-4">
+                            <input class="form-control" asp-for="Checkout.User.Address.Country" />
+                            <span asp-validation-for="Checkout.User.Address.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <p class="mb-0">
+                            State
+                        </p>
+                        <div class="form-outline mb-4">
+                            <input class="form-control" asp-for="Checkout.User.Address.State" />
+                            <span asp-validation-for="Checkout.User.Address.State" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <p class="mb-0">
+                            Zip
+                        </p>
+                        <div class="form-outline">
+                            <input class="form-control" asp-for="Checkout.User.Address.ZipCode" />
+                            <span asp-validation-for="Checkout.User.Address.ZipCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+
+                <hr />
+
+                <div class="my-3">
+                    @{
+                        var index = 0;
+                        foreach (var item in Enum.GetValues(typeof(PaymentMethod)))
+                        {
+                            <div class="form-check">
+                                @if (index == 0 && Model.Checkout.PaymentMethod == null)
+                                {
+                                    <input asp-for="Checkout.PaymentMethod" type="radio" value="@item" class="form-check-input" checked />
+                                }
+                                else
+                                {
+                                    <input asp-for="Checkout.PaymentMethod" type="radio" value="@item" class="form-check-input" />
+                                }
+                                <label class="form-check-label" for="@item">
+                                    @(((PaymentMethod)item).GetDisplayName())
+                                </label>
+                            </div>
+                            index++;
+                        }
+                    }
+                </div>
+
+                <h2>Order Details</h2>
+                <table class="table align-middle table-borderless table-sm">
+                    <tbody>
+                        @{
+                            var index2 = 0;
+                            foreach (var item in Model.Checkout.Items)
+                            {
+                                <tr>
+                                    <th>
+                                        <img src="@item.PictureUrl" class="w-25" />
+                                        <input type="hidden" name="@("basket.items["+index2+"].pictureurl")" value="@item.PictureUrl" />
+                                    </th>
+                                    <th>
+                                        @item.ProductName
+                                        <input type="hidden" name="@("basket.items["+index2+"].productname")" value="@item.ProductName" />
+                                    </th>
+                                    <th>
+                                        $ @item.UnitPrice
+                                        <input type="hidden" name="@("basket.items["+index2+"].unitprice")" value="@item.UnitPrice" />
+                                    </th>
+                                    <th>
+                                        @item.Quantity
+                                        <input type="hidden" name="@("basket.items[" + index2 +"].productid")" value="@item.ProductId" />
+                                    </th>
+                                    <th>
+                                        $ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")
+                                        <input type="hidden" name="@("basket.items[" + index2 +"].unitprice")" value="@item.UnitPrice" />
+                                    </th>
+                                </tr>
+                                index2++;
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-center">TOTAL</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-center">$ @Model.Checkout.Total()</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <button class="btn btn-primary" type="submit">Checkout</button>
+            </div>
+            <!--/.Card-->
+        </div>
+        <!--Grid column-->
+    </div>
+    <!--Grid row-->
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,89 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.PurchaseReceptions.IndexModel
+@using GimenaCreations.Constants;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Purchases receptions";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.PurchasesReceptions;
+}
+
+<h1>Index</h1>
+
+@if((await AuthorizationService.AuthorizeAsync(User, Permissions.PurchaseReceptions.Create)).Succeeded)
+{
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>            
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseReception[0].Purchase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseReception[0].InputNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseReception[0].InputDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseReception[0].InvoiceNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseReception[0].InvoiceDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseReception[0].InvoiceReceptionDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PurchaseReception)
+        {
+            <tr class="@(item.PurchaseReceptionItems.Any() ? "" : "bg-warning")">                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purchase.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InputNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InputDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceReceptionDate)
+                </td>
+                <td>
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.PurchaseReceptions.AddItems)).Succeeded)
+                    {
+                        <a asp-page="./AddItems" asp-route-id="@item.Id">Add items</a> Html.Raw("|");
+                    }
+                    
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.PurchaseReceptions.Edit)).Succeeded)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> Html.Raw("|");
+                    }
+                    
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.PurchaseReceptions.Delete)).Succeeded)
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a> Html.Raw("|");
+                    }
+
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

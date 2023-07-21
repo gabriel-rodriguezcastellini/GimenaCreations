@@ -1,0 +1,124 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#">Categories:</a>
+        
+        <!-- Toggle button -->
+        <button class="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent2"
+                aria-controls="navbarSupportedContent2"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <!-- Link -->
+                <li class="nav-item acitve">
+                    <a class="nav-link text-white" asp-page="Index" asp-route-catalogTypeId="@null" asp-route-searchString="@Model.CurrentFilter">All</a>
+                </li>
+
+                @foreach (var item in Model.CatalogType)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-page="Index" asp-route-catalogTypeId="@item.Id" asp-route-searchString="@Model.CurrentFilter">@item.Type</a>
+                    </li>
+                }
+            </ul>
+
+            <!-- Search -->
+            <form class="w-auto py-1" style="max-width: 12rem" asp-page="Index" method="get">
+                <input type="search" name="searchString" value="@Model.CurrentFilter" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </form>
+
+        </div>
+    </div>
+    <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+
+<div class="text-center">
+    <div class="row">
+        @foreach (var item in Model.CatalogItem)
+        {
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                     data-mdb-ripple-color="light">
+                        <img src="@item.PictureFileName"
+                         class="w-100" />
+                        <a asp-page="CatalogItems" asp-route-id="@item.Id">
+                            <div class="hover-overlay">
+                                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <a asp-page="CatalogItems" asp-route-id="@item.Id" class="text-reset">
+                            <h5 class="card-title mb-2">@item.Name</h5>
+                        </a>
+                        <a asp-page="CatalogItems" asp-route-id="@item.Id" class="text-reset ">
+                            <p>@item.CatalogType.Type</p>
+                        </a>
+                        <h6 class="mb-3 price">$@item.Price</h6>
+                        <form method="post" asp-page="Cart">
+                            <button type="submit" class="btn btn-primary" @(User.Identity?.IsAuthenticated == true ? null : "disabled")>ADD TO CART</button>
+                            <input type="hidden" asp-for="@item.Id" name="catalogItemId" />
+                            <input type="hidden" asp-for="@Model.CurrentFilter" name="currentFilter" />
+                            <input type="hidden" asp-for="@Model.CatalogTypeId" name="catalogTypeId" />
+                            <input type="hidden" asp-for="@Model.CatalogItem.PageIndex" name="pageIndex" />
+                            <input type="hidden" value="Index" name="returnUrl" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@{
+    var prevDisabled = !Model.CatalogItem.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.CatalogItem.HasNextPage ? "disabled" : "";
+}
+
+<!-- Pagination -->
+<nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+        <li class="page-item @prevDisabled">
+            <a class="page-link @prevDisabled" aria-label="Previous" asp-page="Index" asp-route-pageIndex="@(Model.CatalogItem.PageIndex - 1)"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i < Model.CatalogItem.TotalPages + 1; i++)
+        {
+            var active = i == Model.CatalogItem.PageIndex ? "active" : "";
+            <li class="page-item @active">
+                <a class="page-link" asp-page="Index" asp-route-pageIndex="@i" asp-route-currentFilter="@Model.CurrentFilter">
+                    @i
+                </a>
+            </li>
+        }
+        <li class="page-item">
+            <a class="page-link @nextDisabled" aria-label="Next" asp-page="Index" asp-route-pageIndex="@(Model.CatalogItem.PageIndex + 1)" asp-route-currentFilter="@Model.CurrentFilter">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- Pagination -->  

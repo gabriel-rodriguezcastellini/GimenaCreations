@@ -1,0 +1,26 @@
+﻿@using GimenaCreations.Entities;
+@using GimenaCreations.Constants;
+@inject SignInManager<ApplicationUser> SignInManager
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <a class="btn btn-link" data-mdb-ripple-color="dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    <a class="btn btn-link" data-mdb-ripple-color="dark" asp-page="/OrderManagement" title="Order management">My orders</a>
+    @await Component.InvokeAsync(typeof(GimenaCreations.ViewComponents.Cart))
+
+    if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Admin.View)).Succeeded)
+    {
+        <a class="btn btn-link" data-mdb-ripple-color="dark" asp-page="/Admin/Index" title="Admin">Admin</a>
+    }
+
+    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+        <button type="submit" class="btn btn-link" data-mdb-ripple-color="dark">Logout</button>
+    </form>
+}
+else
+{
+    <a class="btn btn-link" data-mdb-ripple-color="dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    <a class="btn btn-link" data-mdb-ripple-color="dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+}

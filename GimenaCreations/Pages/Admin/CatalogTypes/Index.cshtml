@@ -1,0 +1,51 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.CatalogTypes.IndexModel
+@using GimenaCreations.Constants;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Catalog types";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.CatalogTypes;
+}
+
+<h1>Index</h1>
+
+@if((await AuthorizationService.AuthorizeAsync(User, Permissions.CatalogTypes.Create)).Succeeded)
+{
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CatalogType[0].Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CatalogType) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.CatalogTypes.Edit)).Succeeded)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> Html.Raw("|");
+                    }
+
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.CatalogTypes.Delete)).Succeeded)
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    }                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

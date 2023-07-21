@@ -1,0 +1,92 @@
+﻿@page
+@using GimenaCreations.Constants;
+@model GimenaCreations.Pages.Admin.Users.IndexModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Users;
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Address.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Address.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Address.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Address.ZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Address.Street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Address.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Address.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Address.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Address.ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Address.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.PhoneNumber)
+                </td>                
+                <td>
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.Users.ChangeStatus)).Succeeded)
+                    {
+                        <form method="post">                        
+                            <button class="btn btn-warning mb-3" type="submit" asp-page-handler="ChangeStatus" asp-route-id="@item.Id">
+                                @(item.Active ? "Deactivate" : "Activate")
+                            </button>
+                        </form>
+                    }                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

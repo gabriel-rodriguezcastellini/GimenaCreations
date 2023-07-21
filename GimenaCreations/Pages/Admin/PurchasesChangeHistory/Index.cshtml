@@ -1,0 +1,74 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.PurchasesChangeHistory.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.PurchasesChangeHistory;
+}
+
+<style>
+    .modal-backdrop.show {
+        opacity: 0 !important;
+        z-index: 99 !important;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseHistory[0].PurchaseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseHistory[0].Purchase.Supplier.BusinessName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseHistory[0].Purchase.PaymentDeadline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseHistory[0].Purchase.Importance)
+            </th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>        
+        @foreach (var item in Model.PurchaseHistory)
+        {
+            <div class="modal fade" id="@($"modal{item.Id}")" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Changes</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul>
+                        @foreach (var change in item.Items)
+                        {
+                            <li>Date: @change.Date, Satate: @change.State</li>
+                        }
+                    </ul>
+                  </div>                  
+                </div>
+              </div>
+            </div>
+
+                <tr data-mdb-toggle="modal" data-mdb-target="@($"#modal{item.Id}")" role="button">
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purchase.Supplier.BusinessName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purchase.PaymentDeadline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purchase.Importance)
+                </td>
+            </tr>            
+        }
+    </tbody>
+</table>
+           

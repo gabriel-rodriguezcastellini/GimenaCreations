@@ -1,0 +1,69 @@
+﻿@page
+@using GimenaCreations.ViewModels;
+@model CartModel
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";    
+}
+
+<form method="post">
+    <table class="table align-middle table-borderless">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">PRODUCT</th>
+                <th scope="col" class="text-center"></th>
+                <th scope="col" class="text-center">PRICE</th>
+                <th scope="col" class="text-center">QUANTITY</th>
+                <th scope="col" class="text-center">COST</th>
+                <th scope="col" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var index = 0;
+                foreach (var item in Model.CustomerBasket.Items)
+                {
+                    <tr>
+                        <th class="text-center"><img src="@item.PictureUrl" class="w-25" /></th>
+                        <th class="text-center">@item.ProductName</th>
+                        <th class="text-center">$ @item.UnitPrice</th>
+                        <th class="text-center">
+                            <input type="hidden" name="@("quantities[" + index +"].Key")" value="@item.ProductId" />
+                            <input type="number" min="1" name="@("quantities[" + index +"].Value")" value="@item.Quantity" />
+                        </th>
+                        <th class="text-center">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</th>
+                        <th class="text-center">
+                            <button type="submit" class="btn btn-danger" asp-page-handler="DeleteItem" asp-route-productId="@item.ProductId">
+                                <span><i class="fas fa-trash-alt"></i></span>
+                            </button>
+                        </th>
+                    </tr>
+                    index++;
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr class="border-top">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-center">TOTAL</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-center">$ @Model.CustomerBasket.Total()</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-center"><input class="btn btn-success" type="submit" asp-page-handler="Update" value="UPDATE" /></th>
+                <th class="text-center"><input class="btn btn-success" type="submit" asp-page-handler="Update" name="action" value="CHECKOUT" /></th>
+            </tr>
+        </tfoot>
+    </table>
+</form>

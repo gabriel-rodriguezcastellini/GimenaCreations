@@ -1,0 +1,109 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.Purchases.EditModel
+
+@{
+    ViewData["Title"] = "Purchases";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Purchases;
+}
+
+<h1>Edit</h1>
+
+<h4>Purchase</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Purchase.Id" />
+            <input type="hidden" asp-for="Purchase.ApplicationUserId" />
+            <div class="form-group">
+                <label asp-for="Purchase.SupplierId" class="control-label"></label>
+                <select asp-for="Purchase.SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                <span asp-validation-for="Purchase.SupplierId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.PurchaseDate" class="control-label"></label>
+                <input asp-for="Purchase.PurchaseDate" class="form-control" />
+                <span asp-validation-for="Purchase.PurchaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.Importance" class="control-label"></label>
+                <select asp-for="Purchase.Importance" class="form-control" asp-items="ViewBag.Importance"></select>
+            </div>            
+            <div class="form-group">
+                <label asp-for="Purchase.ApplicationUserId" class="control-label"></label>
+                <input asp-for="Purchase.ApplicationUser.FullName" class="form-control" disabled />                
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.PaymentMethod" class="control-label"></label>
+                <select asp-for="Purchase.PaymentMethod" class="form-control" asp-items="ViewBag.PaymentMethod"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.PurchaseStatus" class="control-label"></label>
+                <select asp-for="Purchase.PurchaseStatus" class="form-control" asp-items="ViewBag.Status"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.PaymentDeadline" class="control-label"></label>
+                <input asp-for="Purchase.PaymentDeadline" class="form-control" />
+                <span asp-validation-for="Purchase.PaymentDeadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.Deadline" class="control-label"></label>
+                <input asp-for="Purchase.Deadline" class="form-control" />
+                <span asp-validation-for="Purchase.Deadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.RecipientName" class="control-label"></label>
+                <input asp-for="Purchase.RecipientName" class="form-control" />
+                <span asp-validation-for="Purchase.RecipientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.ShippingCompany" class="control-label"></label>
+                <input asp-for="Purchase.ShippingCompany" class="form-control" />
+                <span asp-validation-for="Purchase.ShippingCompany" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.ShippingAddress" class="control-label"></label>
+                <input asp-for="Purchase.ShippingAddress" class="form-control" />
+                <span asp-validation-for="Purchase.ShippingAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.ShippingCity" class="control-label"></label>
+                <input asp-for="Purchase.ShippingCity" class="form-control" />
+                <span asp-validation-for="Purchase.ShippingCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.Phone" class="control-label"></label>
+                <input asp-for="Purchase.Phone" class="form-control" />
+                <span asp-validation-for="Purchase.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.Tax" class="control-label"></label>
+                <input asp-for="Purchase.Tax" class="form-control" />
+                <span asp-validation-for="Purchase.Tax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.Discount" class="control-label"></label>
+                <input asp-for="Purchase.Discount" class="form-control" />
+                <span asp-validation-for="Purchase.Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase.Comments" class="control-label"></label>
+                <input asp-for="Purchase.Comments" class="form-control" />
+                <span asp-validation-for="Purchase.Comments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

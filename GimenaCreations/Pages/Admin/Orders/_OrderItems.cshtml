@@ -1,0 +1,40 @@
+﻿@using GimenaCreations.Entities;
+@model ICollection<OrderItem>
+
+<table class="table">
+    <thead>
+        <tr>                        
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().PictureUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Units)
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td class="align-middle">
+                    <img src="~/@item.PictureUrl" alt="Image" class="w-25" />
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Units)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

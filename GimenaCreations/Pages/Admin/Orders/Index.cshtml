@@ -1,0 +1,87 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.Orders.IndexModel
+@using GimenaCreations.Constants;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Sales";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Sales;
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].PaymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].ApplicationUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.Order[0].Items.First().RequiresFile)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.FirstName)
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.LastName)
+                </td>
+                <td>
+                    @if (item.Items.Any(x => x.RequiresFile))
+                    {
+                        if (item.Items.Any(x => x.RequiresFile && !x.Files.Any()))
+                        {
+                            @Html.Raw("<span class='text-warning'>Files have to be uploaded</span>");
+                        }
+                        else
+                        {
+                            @Html.Raw("<span class='text-success'>Files have been uploaded</span>");
+                        }
+                    }
+                    else
+                    {
+                        @Html.Raw("<span class='text-info'>Do not require files</span>");
+                    }
+                </td>
+                <td>
+                    @if((await AuthorizationService.AuthorizeAsync(User, Permissions.Orders.Edit)).Succeeded)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> Html.Raw("|");
+                    }
+                    
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

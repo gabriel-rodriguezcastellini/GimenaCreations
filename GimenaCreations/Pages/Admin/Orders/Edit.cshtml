@@ -1,0 +1,118 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.Orders.EditModel
+
+@{
+    ViewData["Title"] = "Sales";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Sales;
+}
+
+<h1>Edit</h1>
+
+<h4>Order</h4>
+<hr />
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Order.Id" />
+            <input type="hidden" asp-for="Order.Date" />
+            <input type="hidden" asp-for="Order.ApplicationUserId" />
+            <div class="form-group">
+                <label asp-for="Order.Status" class="control-label"></label>
+                <select asp-for="Order.Status" class="form-control" asp-items="ViewBag.Status"></select>
+                <span asp-validation-for="Order.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.PaymentMethod" class="control-label"></label>
+                <select asp-for="Order.PaymentMethod" class="form-control" asp-items="ViewBag.PaymentMethod"></select>
+                <span asp-validation-for="Order.PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Description" class="control-label"></label>
+                <input asp-for="Order.Description" class="form-control" />
+                <span asp-validation-for="Order.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order.Items.First().ProductName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order.Items.First().PictureUrl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order.Items.First().UnitPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order.Items.First().Units)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order.Items.First().RequiresFile)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Order.Items)
+                    {
+                        <tr>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td class="align-middle">
+                                <img src="~/@item.PictureUrl" alt="Image" class="w-25" />
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Units)
+                            </td>
+                            @if (item.RequiresFile && item.Files.Any())
+                            {
+                                <td class="align-middle">                                    
+                                    @foreach (var file in item.Files)
+                                    {
+                                        @Html.Raw(file.Name)
+                                    }
+                                    <a asp-page="/Admin/OrderItems/Edit" asp-route-id="@item.Id">Edit file</a>
+                                </td>
+                            }
+                            else if (item.RequiresFile && !item.Files.Any())
+                            {
+                                <td class="align-middle">
+                                    <a asp-page="/Admin/OrderItems/Edit" asp-route-id="@item.Id">Upload file</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="align-middle">Do not require files</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

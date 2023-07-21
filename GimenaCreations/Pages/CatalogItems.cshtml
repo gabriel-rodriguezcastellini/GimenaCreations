@@ -1,0 +1,46 @@
+﻿@page
+@using GimenaCreations.ViewModels;
+@model CatalogItemsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";    
+}
+
+<!--Grid row-->
+<div class="row my-5">
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+        <img src="~/@Model.CatalogItem.PictureFileName" class="img-fluid" alt="" />
+    </div>
+    <!--Grid column-->
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+        <!--Content-->
+        <div class="p-4">
+            <div class="mb-3">
+                <span class="badge bg-dark me-1">@Model.CatalogItem.CatalogType.Type</span>
+            </div>
+
+            <p class="lead">
+                <span>$@Model.CatalogItem.Price</span>
+            </p>
+
+            <p style="font-size: 20px;">Description</p>
+
+            <p>@Model.CatalogItem.Description</p>
+
+            <form class="d-flex justify-content-left" asp-page="Cart" method="post">
+                <button class="btn btn-primary ms-1" type="submit" @(User.Identity?.IsAuthenticated == true ? null : "disabled")>
+                    Add to cart
+                    <i class="fas fa-shopping-cart ms-1"></i>
+                </button>
+                <input type="hidden" asp-for="@Model.CatalogItem.Id" name="catalogItemId" />
+                <input type="hidden" value="CatalogItems" name="returnUrl" />
+            </form>
+        </div>
+        <!--Content-->
+    </div>
+    <!--Grid column-->
+</div>
+<!--Grid row-->

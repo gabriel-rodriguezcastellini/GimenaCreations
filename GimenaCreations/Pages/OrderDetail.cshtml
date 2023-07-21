@@ -1,0 +1,54 @@
+﻿@page
+@using GimenaCreations.Extensions;
+@model GimenaCreations.Pages.OrderDetailModel
+@{
+    ViewData["Title"] = "Order details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<a asp-page="OrderDetail" asp-page-handler="Invoice" asp-route-orderId="@Model.Order.Id">Download invoice</a>
+<div class="row my-3 fw-bold">
+    <div class="col-3 my-auto"><p>ORDER NUMBER</p></div>
+    <div class="col-3 my-auto"><p>DATE</p></div>
+    <div class="col-3 my-auto"><p>TOTAL</p></div>
+    <div class="col-3 my-auto"><p>STATUS</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-3 my-auto"><p>@Model.Order.Id</p></div>
+    <div class="col-3 my-auto"><p>@Model.Order.Date</p></div>
+    <div class="col-3 my-auto"><p>$@Model.Order.GetTotal()</p></div>
+    <div class="col-3 my-auto"><p>@Model.Order.Status.GetDisplayName()</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-12 my-auto"><p>Description</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-12 my-auto"><p>@Model.Order.Description</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-12 my-auto"><p>SHIPPING ADDRESS</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-12 my-auto"><p>@Model.Order.Address.Street<br />@Model.Order.Address.City<br />@Model.Order.Address.State<br />@Model.Order.Address.Country</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-12 my-auto"><p>ORDER DETAILS</p></div>
+</div>
+
+@foreach (var item in Model.Order.Items)
+{
+    <div class="row fw-bold">
+        <div class="col my-auto"><p><img src="@item.PictureUrl" class="w-25"></p></div>
+        <div class="col my-auto"><p>@item.ProductName</p></div>
+        <div class="col my-auto"><p>$ @item.UnitPrice</p></div>
+        <div class="col my-auto"><p>@item.Units</p></div>
+        <div class="col my-auto"><p>$ @Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")</p></div>
+    </div>
+}
+
+<div class="row fw-bold">
+    <div class="col-12 d-flex my-auto"><p class="ms-auto">TOTAL</p></div>
+</div>
+<div class="row fw-bold">
+    <div class="col-12 d-flex text-success my-auto"><p class="ms-auto">$ @Model.Order.GetTotal()</p></div>
+</div>

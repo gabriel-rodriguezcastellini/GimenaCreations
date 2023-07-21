@@ -1,0 +1,9 @@
+﻿@using GimenaCreations.ViewModels;
+@model IEnumerable<Header>
+
+<div class="container bg-success p-2 text-dark bg-opacity-25">
+    @foreach (var header in @Model)
+    {
+        <a asp-page="@header.Page" class="text-dark text-uppercase fs-6">@header.Text</a>
+    }
+</div>

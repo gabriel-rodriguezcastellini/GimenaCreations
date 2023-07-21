@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GimenaCreations.Entities.Address">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAIAAAABAAIABAAAAAA=</HashCode>
+      <FileName>Entities\Address.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GimenaCreations.Entities.ApplicationUser">
+    <Position X="9.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAAAAAAAAAAAAAAAAAAkAAAAAiAAAAAAAAAAg=</HashCode>
+      <FileName>Entities\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Address" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Orders" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.AuditEntry">
+    <Position X="12.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAADAACAAAIAAAiAAAAAAAAAAAAAEAABAAAAEAAAAAA=</HashCode>
+      <FileName>Entities\AuditEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.CatalogItem">
+    <Position X="3.5" Y="9.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAxBgCAAAAAEAAAQAAAgACAAAAAACABAACAA=</HashCode>
+      <FileName>Entities\CatalogItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CatalogType" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="PurchaseItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.CatalogType">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Entities\CatalogType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GimenaCreations.Entities.File">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAgAAAAAIAAAAAAQAAAQAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Entities\File.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GimenaCreations.Entities.LoginLogoutAudit">
+    <Position X="9.5" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAAAAAAAICQAQAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Entities\LoginLogoutAudit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.Order" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="6.5" Width="1.75" />
+    <Members>
+      <Method Name="GetTotal" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAADBAAEAAAgCACQAAAAAAAAAAAAAAADAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Order.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+      <Property Name="Address" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GimenaCreations.Entities.OrderItem">
+    <Position X="3.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAECAAAAALAQAAAAAAAAAAAAAAAAQAAAEAACAAAIAIA=</HashCode>
+      <FileName>Entities\OrderItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CatalogItem" />
+      <Property Name="Order" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Files" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.Purchase">
+    <Position X="6.5" Y="13.75" Width="1.75" />
+    <Members>
+      <Method Name="GetTotal" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACBgCAAAAACIAAAgAAAAAAAAAAAQCAAAAAAAAgAAA=</HashCode>
+      <FileName>Entities\Purchase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Supplier" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.PurchaseItem">
+    <Position X="6.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAABaAAAAAAAAAAAAQAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Entities\PurchaseItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CatalogItem" />
+      <Property Name="Purchase" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.Supplier">
+    <Position X="3.5" Y="14" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQCQAAAACAAgAAAAAAKAAQAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Entities\Supplier.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Purchases" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Models.BasketItem">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAAAAAAABAQAAAAAAAAAAAAAABAAAAAAAAAgAAIAAA=</HashCode>
+      <FileName>Models\BasketItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GimenaCreations.Models.CustomerBasket">
+    <Position X="10.5" Y="4" Width="1.5" />
+    <Members>
+      <Method Name="CustomerBasket" Hidden="true" />
+      <Method Name="Total" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\CustomerBasket.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

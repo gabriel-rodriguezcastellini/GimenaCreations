@@ -1,0 +1,83 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.Suppliers.IndexModel
+@using GimenaCreations.Constants;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Suppliers";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Suppliers;
+}
+
+<h1>Index</h1>
+
+<p>
+    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Suppliers.Create)).Succeeded)
+    {
+        <a asp-page="Create">Create New</a>
+
+        <br />
+    }
+
+    <a asp-page="Index" asp-page-handler="Report">Module report</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier[0].SupplierId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier[0].BusinessName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier[0].SupplierType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier[0].ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier[0].ContactPhone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Supplier)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BusinessName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactPhone)
+                </td>
+                <td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Suppliers.Edit)).Succeeded)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        Html.Raw("|");
+                    }
+
+                    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Suppliers.Delete)).Succeeded)
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        Html.Raw("|");
+                    }
+
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

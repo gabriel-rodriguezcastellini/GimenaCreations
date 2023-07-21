@@ -1,0 +1,110 @@
+﻿@page
+@using GimenaCreations.Entities;
+@model GimenaCreations.Pages.Admin.Purchases.IndexModel
+@using GimenaCreations.Constants;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Purchases";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Purchases;
+}
+
+<h1>Index</h1>
+
+<p>
+    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Purchases.Create)).Succeeded)
+    {
+        <a asp-page="Create">Create New</a>
+
+        <br />
+    }
+
+    <form method="post">
+        <input type="hidden" asp-for="StartDate" />
+        <input type="hidden" asp-for="EndDate" />
+        <input type="submit" asp-page-handler="ReportList" class="btn btn-primary" value="Module report" />
+    </form>
+    <h2>Filter by dates</h2>
+    <form method="get">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" />
+        <label asp-for="EndDate"></label>
+        <input asp-for="EndDate" />
+        <input type="submit" value="Filter" class="btn btn-primary" />
+    </form>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchase[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchase[0].PurchaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchase[0].ApplicationUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchase[0].Importance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchase[0].PaymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.Purchase[0].PurchaseStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Purchase)
+        {
+            <tr class="@(!item.Items.Any() ? "bg-warning": "")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>(item.PurchaseStatus))
+                </td>
+                <td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Purchases.AddProducts)).Succeeded)
+                    {
+                        <a asp-page="./AddProducts" asp-route-id="@item.Id">Add products</a>
+                        Html.Raw("|");
+                    }
+
+                    <a asp-page="/Admin/Purchases/Index" asp-page-handler="Report" asp-route-purchaseId="@item.Id">Download report</a> |
+
+                    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Purchases.Edit)).Succeeded)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        Html.Raw("|");
+                    }
+
+                    @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Purchases.Delete)).Succeeded)
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        Html.Raw("|");
+                    }
+
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

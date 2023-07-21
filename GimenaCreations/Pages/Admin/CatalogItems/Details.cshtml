@@ -1,0 +1,75 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.CatalogItems.DetailsModel
+
+@{
+    ViewData["Title"] = "Catalog";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Catalog;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Catalog item</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.PictureFileName)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@Model.CatalogItem.PictureFileName" class="w-25" />            
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.CatalogType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.CatalogType.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.AvailableStock)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.AvailableStock)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.RestockThreshold)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.RestockThreshold)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.MaxStockThreshold)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.MaxStockThreshold)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CatalogItem.OnReorder)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CatalogItem.OnReorder)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.CatalogItem?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

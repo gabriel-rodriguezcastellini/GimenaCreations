@@ -1,0 +1,120 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.Purchases.AddProductsModel
+@{
+    ViewData["Title"] = "Purchases";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Purchases;
+}
+
+<h1>Add products ID @Model.PurchaseId</h1>
+<h4>Purchase</h4>
+<hr />
+
+<form method="post">    
+    <input type="hidden" asp-for="PurchaseId" />
+    <input type="submit" value="Update" class="btn btn-primary @(Model.PurchaseItems.Any() ? "" : "disabled")" id="submitBtn" />
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PurchaseItems[0].CatalogItem.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PurchaseItems[0].Quantity)
+                </th>                
+                <th>
+                    @Html.DisplayNameFor(model => model.PurchaseItems[0].Price)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbody">            
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <a href="#" id="add">Add</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        var items = [];
+
+        $(function(){
+            @foreach (var item in Model.PurchaseItems)
+            {
+                @:items.push({quantity:@item.Quantity, catalogItemId:@item.CatalogItemId, price:@item.Price, data: GetData(items.length, @item.Quantity, @item.CatalogItemId, @item.Price)});
+            }
+
+            $.each(items, function(index, val){
+                $("#tbody").append(val.data);
+            });
+        });        
+
+        $(document).on("click", ".delete", function(){
+            $(this).closest("tr").remove();
+            items = [];
+
+            $("tr.item").each(function () {                
+                var quantity = $(this).find("input.quantity").val();
+                var catalogItemId = $(this).find("select.catalogItemId :selected").val();                
+                var price = $(this).find("input.price").val();
+                items.push({ quantity: quantity, catalogItemId: catalogItemId, price:price, data: GetData(items.length, quantity, catalogItemId, price) });
+            });
+
+            $("#tbody").empty();
+
+            $.each(items, function (index, val) {
+                $("#tbody").append(val.data);
+            });
+
+            if(items.length <= 0){
+                $("#submitBtn").addClass("disabled");
+            }
+        });
+
+        function GetData(i, quantity, catalogItemId, price) {
+            $("#submitBtn").removeClass("disabled");
+            var select = '<select class="form-control catalogItemId" name="PurchaseItems[' + i + '].CatalogItemId">';
+
+            @foreach (var item in Model.CatalogItems)
+            {
+                @:if(@item.Id == catalogItemId)
+                    @:select += '<option value=' + @item.Id + ' selected>' + "@item.Name" + '</option>';
+                @:select += '<option value=' + @item.Id + '>' + "@item.Name" + '</option>';
+            }
+
+            select+= '</select>';
+            var inputQuantity = '<input min="1" class="quantity" type="number" name="PurchaseItems[' + i + '].Quantity" value=' + quantity + '>';
+            var inputPrice = '<input class="price" type="text" name="PurchaseItems['+i+'].Price" value='+price+' />';
+            var hidden = '<input type="hidden" name="PurchaseItems[' + i + '].PurchaseId" value="@Model.PurchaseId" />';
+            var a = '<a href="#" data-index=' + i + ' class="delete">Delete</a>';
+            return '<tr class="item"><td>' + select + '</td><td>' + inputQuantity + '</td><td>' + inputPrice + '</td><td>'+hidden+'</td><td>' + a + '</td></tr>';
+        }
+
+        $("#add").click(function(){
+            $("#submitBtn").removeClass("disabled");
+            var select = '<select class="form-control catalogItemId" name="PurchaseItems[' + $("tr.item").length + '].CatalogItemId">';
+            
+            @foreach (var item in Model.CatalogItems)
+            {
+                @:select += '<option value=' + @item.Id + '>' + "@item.Name" + '</option>';
+            }
+
+            select+= '</select>';
+            var inputQuantity = '<input min="1" class="quantity" type="number" name="PurchaseItems[' + $("tr.item").length + '].Quantity">';
+            var inputPrice = '<input class="price" type="text" name="PurchaseItems[' + $("tr.item").length + '].Price" />';
+            var hidden = '<input type="hidden" name="PurchaseItems[' + $("tr.item").length + '].PurchaseId" value="@Model.PurchaseId" />';
+            var a = '<a href="#" data-index=' + $("tr.item").length + ' class="delete">Delete</a>';
+            $("#tbody").append('<tr class="item"><td>' + select + '</td><td>' + inputQuantity + '</td><td>' + inputPrice + '</td><td>'+hidden+'</td><td>' + a + '</td></tr>');
+        });                    
+    </script>
+}

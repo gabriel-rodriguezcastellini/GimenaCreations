@@ -1,0 +1,59 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.AuditEntries.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.AuditEntries;
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditEntry[0].EntityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditEntry[0].ActionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditEntry[0].ApplicationUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditEntry[0].TimeStamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditEntry[0].EntityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuditEntry[0].Changes)
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.AuditEntry) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Changes)
+            </td>            
+        </tr>
+}
+    </tbody>
+</table>

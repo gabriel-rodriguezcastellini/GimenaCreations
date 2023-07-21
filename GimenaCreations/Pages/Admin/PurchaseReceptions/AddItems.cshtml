@@ -1,0 +1,128 @@
+﻿@page
+@model GimenaCreations.Pages.Admin.PurchaseReceptions.AddItemsModel
+@{
+    ViewData["Title"] = "Purchases receptions";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.PurchasesReceptions;
+}
+
+<h1>Add items</h1>
+<h4>Purchase reception ID @Model.PurchaseReceptionId</h4>
+<hr />
+
+<form method="post">
+    <input type="hidden" asp-for="PurchaseReceptionId" />
+    <input type="submit" value="Update" class="btn btn-primary @(Model.Items.Any() ? "" : "disabled")" id="submitBtn" />
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(x=>x.Items[0].CatalogItem.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x=>x.Items[0].Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x=>x.Items[0].IsSatisfied)
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <a href="#" id="add">Add</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+                <script>
+                    var items = [];
+
+                    $(function(){
+        @foreach (var item in Model.Items)
+        {
+            @:items.push({quantity:@item.Quantity, catalogItemId:@item.CatalogItemId, isSatisfied:@(item.IsSatisfied ? "true" : "false"), data:GetData(items.length, @item.Quantity, @item.CatalogItemId, @(item.IsSatisfied ? "true" : "false"))});
+        }
+
+                        $.each(items, function(index, val){
+                            $("#tbody").append(val.data);
+                        });                      
+                    });
+
+                    $(document).on("click", ".delete", function(){
+                            $(this).closest("tr").remove();
+                            items = [];
+
+                            $("tr.item").each(function(){
+                                var quantity = $(this).find("input.quantity").val();
+                                var catalogItemId = $(this).find("select.catalogItemId :selected").val();
+                                var isSatisfied = $(this).find("input.checkbox").is(":checked");
+                                items.push({quantity:quantity, catalogItemId:catalogItemId, isSatisfied:isSatisfied, data:GetData(items.length, quantity, catalogItemId, isSatisfied)});
+                            });
+
+                            $("#tbody").empty();
+
+                            $.each(items, function(index, val){
+                                $("#tbody").append(val.data);
+                            });
+
+                            if(items.length <= 0){
+                                $("#submitBtn").addClass("disabled");
+                            }
+                        });  
+
+                    function GetData(i, quantity, catalogItemId, isSatisfied){                        
+                            $("#submitBtn").removeClass("disabled");
+                            var select = '<select class="form-control catalogItemId" name="Items['+i+'].CatalogItemId">';
+
+        @foreach (var item in Model.CatalogItems)
+        {
+            @:if(@item.Id == catalogItemId)
+                @:select += '<option value='+@item.Id+' selected>'+"@item.Name"+'</option>';
+            @:select += '<option value='+@item.Id+'>'+"@item.Name"+'</option>';
+        }                        
+
+        var checked;
+
+        if(isSatisfied){
+            checked = "checked";
+        }
+        else{
+            checked = "";
+        }
+
+                            select+='</select>';
+                            var inputQuantity = '<input min="1" class="quantity" type="number" name="Items[' + i + '].Quantity" value=' + quantity + '>';
+                            var inputSatisfied = '<input class="checkbox form-check-input" onchange="this.value=this.checked" type="checkbox" '+(isSatisfied ? 'value="true" '+checked : 'value=""')+' name="Items['+i+'].IsSatisfied">';
+                            var hidden = '<input type="hidden" name="Items[' + i + '].PurchaseReceptionId" value="@Model.PurchaseReceptionId" />';                            
+                            var a = '<a href="#" data-index=' + i + ' class="delete">Delete</a>';
+                            return '<tr class="item"><td>' + select + '</td><td>' + inputQuantity + '</td><td>' + inputSatisfied + '</td><td>'+hidden+'</td><td>' + a + '</td></tr>';
+                        }
+
+                        $("#add").click(function(){
+                            $("#submitBtn").removeClass("disabled");
+                            var select = '<select class="form-control catalogItemId" name="Items[' + $("tr.item").length + '].CatalogItemId">';
+
+        @foreach (var item in Model.CatalogItems)
+        {
+            @:select += '<option value=' + @item.Id + '>' + "@item.Name" + '</option>';
+        }
+
+                            select+='</select>';
+                            var inputQuantity = '<input min="1" class="quantity" type="number" name="Items[' + $("tr.item").length + '].Quantity">';
+                                var inputSatisfied = '<input class="checkbox form-check-input" onchange="this.value=this.checked" type="checkbox" value="" name="Items['+$("tr.item").length+'].IsSatisfied">';                                
+                            var hidden = '<input type="hidden" name="Items[' + $("tr.item").length + '].PurchaseReceptionId" value="@Model.PurchaseReceptionId" />';
+                            var a = '<a href="#" data-index=' + $("tr.item").length + ' class="delete">Delete</a>';
+                            $("#tbody").append('<tr class="item"><td>' + select + '</td><td>' + inputQuantity + '</td><td>' + inputSatisfied + '</td><td>'+hidden+'</td><td>' + a + '</td></tr>');
+                        });
+                </script>
+}

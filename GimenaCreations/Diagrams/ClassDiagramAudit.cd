@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="GimenaCreations.Entities.ApplicationUser">
+    <Position X="4.5" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAAAAAAAAAAAAAAAAAAkAAAAAiAAAAAAAAAAg=</HashCode>
+      <FileName>Entities\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GimenaCreations.Entities.AuditEntry">
+    <Position X="8.25" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAADAACAAAIAAAiAAAAAAAAAAAAAEAABAAAAEAAAAAA=</HashCode>
+      <FileName>Entities\AuditEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GimenaCreations.Entities.LoginLogoutAudit">
+    <Position X="4.5" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAAAAAAAICQAQAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Entities\LoginLogoutAudit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
