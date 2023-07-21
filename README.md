@@ -4,7 +4,7 @@ E-commerce .NET Core application.
 
 ## Status (GitHub Actions)
 
-[![.NET](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/dotnet.yml/badge.svg)](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/dotnet.yml) [![CodeQL](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/codeql.yml/badge.svg)](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/codeql.yml)
+[![.NET](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/dotnet.yml/badge.svg)](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/dotnet.yml) [![CodeQL](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/github-code-scanning/codeql/badge.svg?branch=master)](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/actions/workflows/github-code-scanning/codeql)
 
 ## Getting Started
 
