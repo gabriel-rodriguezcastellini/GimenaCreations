@@ -26,7 +26,3 @@ Seq :  http://localhost:5341
 ### Architecture overview
 
 The architecture proposes an all-in-one oriented architecture implementation using HTTPS.
-
-## Read further
-
-- [Explore the application](https://github.com/gabriel-rodriguezcastellini/GimenaCreations/wiki)
